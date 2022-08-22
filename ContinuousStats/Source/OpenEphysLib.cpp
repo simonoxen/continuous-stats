@@ -34,22 +34,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace Plugin;
 #define NUM_PLUGINS 1
 
-extern "C" EXPORT void getLibInfo(Plugin::LibraryInfo* info)
+extern "C" EXPORT void getLibInfo(Plugin::LibraryInfo *info)
 {
 	info->apiVersion = PLUGIN_API_VER;
 	info->name = "Continuous Stats";
-	info->libVersion = 1;
+	info->libVersion = "1";
 	info->numPlugins = NUM_PLUGINS;
 }
 
-extern "C" EXPORT int getPluginInfo(int index, Plugin::PluginInfo* info)
+extern "C" EXPORT int getPluginInfo(int index, Plugin::PluginInfo *info)
 {
 	switch (index)
 	{
 	case 0:
-		info->type = Plugin::PLUGIN_TYPE_PROCESSOR;
+		info->type = Plugin::Type::PROCESSOR;
 		info->processor.name = "Continuous Stats";
-		info->processor.type = Plugin::FilterProcessor;
+		info->processor.type = Plugin::Processor::FILTER;
 		info->processor.creator = &(Plugin::createProcessor<ContinuousStats>);
 		break;
 	default:
@@ -61,8 +61,8 @@ extern "C" EXPORT int getPluginInfo(int index, Plugin::PluginInfo* info)
 
 #ifdef WIN32
 BOOL WINAPI DllMain(IN HINSTANCE hDllHandle,
-	IN DWORD     nReason,
-	IN LPVOID    Reserved)
+					IN DWORD nReason,
+					IN LPVOID Reserved)
 {
 	return TRUE;
 }

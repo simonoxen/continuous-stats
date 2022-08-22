@@ -27,43 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <EditorHeaders.h>
 #include "ContinuousStats.h"
 
-class ContinuousStatsEditor : public GenericEditor, public ComboBox::Listener, public Label::Listener
+class ContinuousStatsEditor
+    : public GenericEditor
 {
 public:
-    ContinuousStatsEditor(GenericProcessor* parentNode, bool useDefaultParameterEditors = false);
+    ContinuousStatsEditor(GenericProcessor *parentNode);
     ~ContinuousStatsEditor();
 
-    // implements ComboBox::Listener
-    void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
-
-    // implements Label::Listener
-    void labelTextChanged(Label* labelThatHasChanged) override;
-
-    void saveCustomParameters(XmlElement* xml) override;
-    void loadCustomParameters(XmlElement* xml) override;
-
 private:
-    /*
-     * Ouputs whether the label contained a valid input; if so, it is stored in *out
-     * and the label is updated with the parsed input. Otherwise, the label is reset
-     * to defaultValue.
-     */
-    static bool updateFloatLabel(Label* label, float min, float max,
-        float defaultValue, float* out);
-
-    // UI elements
-    // Row 1
-    ScopedPointer<ComboBox> statBox;
-
-    // Row 2
-    ScopedPointer<Label> timeConstLabel;
-    ScopedPointer<Label> timeConstEditable;
-    ScopedPointer<Label> timeConstUnit;
-
-    // constants
-    const String APPLY_TO_CHAN_TOOLTIP = "Turn processing of selected channels on or off";
-    const String TIME_CONST_TOOLTIP = "Time for the influence of a single sample to decay to 36.8% (1/e) of its initial value (larger = smoother, smaller = more local)";
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ContinuousStatsEditor);
 };
 

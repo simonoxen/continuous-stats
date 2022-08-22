@@ -33,17 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @see GenericProcessor
  */
 
-// parameter indices
-enum Param
-{
-    STAT,
-    TIME_CONST
-};
-
 // statistic option indices
 enum Statistic
 {
-    MEAN = 1,
+    MEAN,
     STDDEV,
 };
 
@@ -52,21 +45,24 @@ class ContinuousStats : public GenericProcessor
     friend class ContinuousStatsEditor;
 
 public:
+    /** Constructor */
     ContinuousStats();
+
+    /** Destructor */
     ~ContinuousStats();
 
-    bool hasEditor() const { return true; }
-    AudioProcessorEditor* createEditor() override;
+    /** Creates the custom editor for this plugin */
+    AudioProcessorEditor *createEditor() override;
 
-    void process(AudioSampleBuffer& continuousBuffer) override;
+    /** Applies filters to a subset of channels */
+    void process(AudioBuffer<float> &buffer) override;
 
-    bool disable() override;
-
-    void setParameter(int parameterIndex, float newValue) override;
-
-    // handle changing number of channels
+    /** Called whenever the settings of upstream plugins change */
     void updateSettings() override;
-         
+
+    /** Called whenever a parameter's value is changed (called by GenericProcessor::setParameter())*/
+    void parameterValueChanged(Parameter *param) override;
+
 private:
     // which statistic is currently being calculated
     Statistic currStat;
